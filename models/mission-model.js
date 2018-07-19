@@ -1,0 +1,35 @@
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+
+const missionSchema = new Schema({
+    type: {
+        type: String,
+        enum: ['cleaner', 'babysitter', 'petsitter', 'personnal driver'],
+        required: true,
+    },
+    adress: {type: String, required: true},
+    client: {
+        type: Schema.Types.ObjectId,
+        ref: "Client",
+    },
+    worker: {
+        type: Schema.Types.ObjectId,
+        ref: "Worker",
+    },
+    startDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
+        type: Date,
+        required: true
+    },
+},{
+    timestamps: true
+});
+
+const Mission = mongoose.model('Mission', missionSchema);
+
+
+module.exports = Mission;
