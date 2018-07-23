@@ -37,7 +37,7 @@ router.post(
         "role",
         "oldPassword",
         "newPassword",
-        "availabilities",
+        // "availabilities",
     ];
 
     const changes = {};

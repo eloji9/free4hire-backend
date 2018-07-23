@@ -8,7 +8,11 @@ const missionSchema = new Schema({
         enum: ['cleaner', 'babysitter', 'petsitter', 'personnal driver'],
         required: true,
     },
-    adress: {type: String, required: true},
+    adress: {
+        string: { type: String },
+        lat: { type: Number },
+        long: { type: Number }
+    },
     client: {
         type: Schema.Types.ObjectId,
         ref: "User",
