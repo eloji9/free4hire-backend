@@ -15,7 +15,7 @@ const passportSetup = require('./passport/setup.js');
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/free4hire-backend', {useMongoClient: true})
+  .connect(process.env.MONGODB_URI, {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -58,5 +58,9 @@ app.use('/api', authRouter);
 
 // const missionRouter = require('./routes/mission-router.js');
 // app.use('/api', missionRouter);
+
+app.use((req,res,next) => {
+  res.sendFile(`${__dirname}/public/index.html`)
+});
 
 module.exports = app;
