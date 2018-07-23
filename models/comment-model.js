@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const commentForClientSchema = new Schema({
+const commentSchema = new Schema({
     title: {
         type: String,
         required: true,
@@ -13,12 +13,12 @@ const commentForClientSchema = new Schema({
     },
     creator: {
         type: Schema.Types.ObjectId,
-        ref: "Worker",
+        ref: "User",
         required: true
     },
     forWhom: {
         type: Schema.Types.ObjectId,
-        ref: "Client",
+        ref: "User",
         required: true
     },
     rating: {
@@ -28,7 +28,7 @@ const commentForClientSchema = new Schema({
     timestamps: true
 });
 
-const CommentForClient = mongoose.model('CommentForClient', commentForClientSchema);
+const Comment = mongoose.model('Comment', commentSchema);
 
 
-module.exports = CommentForClient;
+module.exports = Comment;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const workerSchema = new Schema({
+const userSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     encryptedPassword: {type: String, required: true},
@@ -19,26 +19,31 @@ const workerSchema = new Schema({
     },
     adress: {type: String},
     phone:{type: String},
-    availabilities: [{
-        type: Schema.Types.ObjectId,
-        ref: "Availability",
-    }],
+    role: {
+        type: String,
+        enum: ['client', 'worker'],
+        required: true,
+    },
     missions:[{
         type: Schema.Types.ObjectId,
         ref: "Mission",
     }],
     comments:[{
         type: Schema.Types.ObjectId,
-        ref: "CommentForWorker",
+        ref: "Comment",
     }],
-    rating: [{
+    rating: {
         type: Number,
+    },
+    availabilities: [{
+        type: Schema.Types.ObjectId,
+        ref: "Availability",
     }],
 },{
     timestamps: true
 });
 
-const Worker = mongoose.model('Worker', workerSchema);
+const User = mongoose.model('User', userSchema);
 
 
-module.exports = Worker;
+module.exports = User;

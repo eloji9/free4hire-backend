@@ -11,11 +11,11 @@ const missionSchema = new Schema({
     adress: {type: String, required: true},
     client: {
         type: Schema.Types.ObjectId,
-        ref: "Client",
+        ref: "User",
     },
     worker: {
         type: Schema.Types.ObjectId,
-        ref: "Worker",
+        ref: "User",
     },
     startDate: {
         type: Date,

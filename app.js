@@ -6,8 +6,12 @@ const express      = require('express');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-const cookieParser = require('cors');
+const cors         = require('cors');
+const session      = require('express-session');
+const MongoStore   = require('connect-mongo')(session);
 
+
+const passportSetup = require('./passport/setup.js');
 
 mongoose.Promise = Promise;
 mongoose
@@ -30,18 +34,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Allow cross-origin ressource sharing (API requests from other domains)
 app.use(cors({
-  credentials: true,
-  origin: ["http://localhost:4200"]
-}))
+  // receives cookies from other domains
+  credentials:true,
+  // there are the domains I want cookies from
+  origin:["http://localhost:4200"]
+}));
 
-const missionRouter = require('./routes/mission-router.js');
-app.use('/api', missionRouter);
+// Session setup should come after the CORS setup
+app.use(session({
+  secret: "blah blah blah",
+  saveUninitialized: true,
+  resave: true,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
 
-const clientRouter = require('./routes/client-router.js');
-app.use('/api', clientRouter);
+// passportSetup always after SESSION setup
+passportSetup(app);
 
-const workerRouter = require('./routes/worker-router.js');
-app.use('/api', workerRouter);
+// const phoneRouter = require('./routes/phone-router.js');
+// app.use('/api', phoneRouter);
+
+const authRouter = require ('./routes/auth-router.js');
+app.use('/api', authRouter);
 
 module.exports = app;

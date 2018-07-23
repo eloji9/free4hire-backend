@@ -13,7 +13,7 @@ const availabilitySchema = new Schema({
     },
     worker: {
         type: Schema.Types.ObjectId,
-        ref: "Worker",
+        ref: "User",
     },
     startDate: {
         type: Date,
