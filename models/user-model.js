@@ -3,9 +3,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    firstName: {type: String, required: true},
-    lastName: {type: String, required: true},
-    encryptedPassword: {type: String, required: true},
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    encryptedPassword: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
@@ -17,12 +26,15 @@ const userSchema = new Schema({
         required:true,
         default: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/256/User-icon.png'
     },
-    adress: {type: String},
+    adress: {
+        string: { type: String },
+        lat: { type: Number },
+        long: { type: Number }
+    },
     phone:{type: String},
     role: {
-        type: String,
-        enum: ['client', 'worker'],
-        required: true,
+        type: Boolean,
+        required: true
     },
     missions:[{
         type: Schema.Types.ObjectId,

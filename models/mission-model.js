@@ -25,6 +25,10 @@ const missionSchema = new Schema({
         type: Date,
         required: true
     },
+    price:{
+        type: Number,
+        required: true,
+    }
 },{
     timestamps: true
 });

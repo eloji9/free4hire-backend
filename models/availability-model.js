@@ -9,7 +9,9 @@ const availabilitySchema = new Schema({
         required: true,
     },
     adress: {
-        type: String
+        string: { type: String },
+        lat: { type: Number },
+        long: { type: Number }
     },
     worker: {
         type: Schema.Types.ObjectId,

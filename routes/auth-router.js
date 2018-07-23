@@ -1,35 +1,45 @@
 const express = require ('express');
 const bcrypt = require('bcrypt');
+const bodyparser = require("body-parser");
 
 const User = require('../models/user-model.js');
 
 const router = express.Router();
 
 // POST /signup
-router.post('/signup', (req, res, next) => {
-    const {firstName, lastName, email, originalPassword,role} = req.body;
-    if (originalPassword === '' || originalPassword.match(/[0-9]/) === null) {
-        // create an error object for "next(err)"
-        const err = new Error('Password cannot be blank and must have a number');
-        next(err);
-        return;
-    }
-    // we are ready to save the user if we get this far
-    const encryptedPassword= bcrypt.hashSync(originalPassword, 10);
+router.post("/signup", bodyparser.json(), (req, res, next) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    role,
+    originalPassword
+  } = req.body;
+  if (originalPassword === "" || originalPassword.match(/[0-9]/) === null) {
+    const err = new Error("Password can't be blank and must have a number");
+    next(err);
+    return;
+  }
 
-    User.create({firstName, lastName, email, encryptedPassword, role})
-    .then((userDoc) => {
-        // log the user in immediatly after signing up
-        req.login(userDoc, () => {
-            // hide encryptedPassport before sending the JSON(it's a security risk)
-            userDoc.encryptedPassword = undefined;
-            res.json({userDoc});
-        });
+  const encryptedPassword = bcrypt.hashSync(originalPassword, 10);
+
+  User.create({
+    firstName,
+    lastName,
+    email,
+    encryptedPassword,
+    role
+  })
+    .then(userDoc => {
+      req.login(userDoc, () => {
+        userDoc.encryptedPassword = undefined;
+        res.json({ userDoc });
+      });
     })
-    .catch((err) => {
-        next(err);
-    })
-})
+    .catch(err => {
+      next(err);
+    });
+});
 
 // POST /login
 router.post('/login', (req, res, next) => {

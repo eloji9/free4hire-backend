@@ -53,10 +53,10 @@ app.use(session({
 // passportSetup always after SESSION setup
 passportSetup(app);
 
-// const phoneRouter = require('./routes/phone-router.js');
-// app.use('/api', phoneRouter);
-
 const authRouter = require ('./routes/auth-router.js');
 app.use('/api', authRouter);
+
+// const missionRouter = require('./routes/mission-router.js');
+// app.use('/api', missionRouter);
 
 module.exports = app;
