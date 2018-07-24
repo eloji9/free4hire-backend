@@ -21,17 +21,12 @@ const userSchema = new Schema({
         unique: true,
         match: /^.+@.+\..+$/
     },
-    image: {
-        type: String,
-        required:true,
-        default: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/256/User-icon.png'
-    },
     adress: {
-        string: { type: String },
-        lat: { type: Number },
-        long: { type: Number }
+        type: String
     },
-    phone:{type: String},
+    phone:{
+        type: String
+    },
     role: {
         type: Boolean,
         required: true
@@ -47,10 +42,6 @@ const userSchema = new Schema({
     rating: {
         type: Number,
     },
-    availabilities: [{
-        type: Schema.Types.ObjectId,
-        ref: "Availability",
-    }],
 },{
     timestamps: true
 });

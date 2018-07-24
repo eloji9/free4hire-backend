@@ -1,25 +1,25 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const bodyparser = require("body-parser");
-const multer = require("multer");
-const cloudinary = require("cloudinary");
-const cloudinaryStorage = require("multer-storage-cloudinary");
+// const multer = require("multer");
+// const cloudinary = require("cloudinary");
+// const cloudinaryStorage = require("multer-storage-cloudinary");
 
 const User = require("../models/user-model.js");
 
 const router = express.Router();
 
-cloudinary.config({
-  cloud_name: process.env.cloudinary_name,
-  api_key: process.env.cloudinary_key,
-  api_secret: process.env.cloudinary_secret
-});
+// cloudinary.config({
+//   cloud_name: process.env.cloudinary_name,
+//   api_key: process.env.cloudinary_key,
+//   api_secret: process.env.cloudinary_secret
+// });
 
-const storage = cloudinaryStorage({
-  cloudinary,
-  folder: "user-pictures"
-});
-const uploader = multer({ storage });
+// const storage = cloudinaryStorage({
+//   cloudinary,
+//   folder: "user-pictures"
+// });
+// const uploader = multer({ storage });
 
 // POST /settings
 router.post(
@@ -31,7 +31,7 @@ router.post(
         "firstName",
         "lastName",
         "email",
-        "image",
+        // "image",
         "adress",
         "phone",
         "role",
@@ -50,9 +50,9 @@ router.post(
       }
     });
 
-    if (req.file) {
-      changes.picture = req.file.secure_url;
-    }
+    // if (req.file) {
+    //   changes.picture = req.file.secure_url;
+    // }
 
     if (changes.oldPassword && changes.newPassword) {
       if (

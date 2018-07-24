@@ -11,9 +11,11 @@ router.post("/signup", bodyparser.json(), (req, res, next) => {
   const {
     firstName,
     lastName,
+    originalPassword,
     email,
+    adress,
+    phone,
     role,
-    originalPassword
   } = req.body;
   if (originalPassword === "" || originalPassword.match(/[0-9]/) === null) {
     const err = new Error("Password can't be blank and must have a number");
@@ -26,9 +28,11 @@ router.post("/signup", bodyparser.json(), (req, res, next) => {
   User.create({
     firstName,
     lastName,
-    email,
     encryptedPassword,
-    role
+    email,
+    adress,
+    phone,
+    role,
   })
     .then(userDoc => {
       req.login(userDoc, () => {
