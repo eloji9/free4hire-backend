@@ -53,11 +53,11 @@ app.use(session({
 // passportSetup always after SESSION setup
 passportSetup(app);
 
+const missionRouter = require('./routes/mission-router.js');
+app.use('/api', missionRouter);
 const authRouter = require ('./routes/auth-router.js');
 app.use('/api', authRouter);
 
-// const missionRouter = require('./routes/mission-router.js');
-// app.use('/api', missionRouter);
 
 app.use((req,res,next) => {
   res.sendFile(`${__dirname}/public/index.html`)

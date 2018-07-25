@@ -28,7 +28,7 @@ const missionSchema = new Schema({
         required: true
     },
     priceHour:{
-        type: Number,
+        type: String,
         required: true,
     }
 },{
