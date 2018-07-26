@@ -9,7 +9,10 @@ const router = express.Router();
 
 // GET ALL THE MISSIONS IN THE DATABASE
 router.get("/missions", (req,res,next) => {
-    Mission.find()
+    Mission
+    .find()
+    .sort({createdAt: -1})
+    .populate({path:'worker'})
     .then((missionResults) => {
         res.json(missionResults);
     })

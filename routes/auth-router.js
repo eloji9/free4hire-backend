@@ -89,4 +89,34 @@ router.get('/checklogin', (req,res,next) => {
     res.json({userDoc: req.user})
 })
 
+// GET ALL THE USERS
+router.get("/users",(req,res,next) => {
+    User
+    .find()
+    .then((userResults) => {
+        console.log(userResults);
+
+        res.json(userResults);
+    })
+    .catch((err) => {
+        next(err);
+    });
+});
+
+// GET ONE USER
+router.get('/user/:workerId', (req,res,next) => {
+    const workerId = req.params.workerId;
+    User.findById(workerId)
+    .then((workerDoc) => {
+        if (!workerDoc) {
+            next();
+            return;
+        }
+        res.json(workerDoc);
+    })
+    .catch((err) => {
+        next(err);
+    });
+})
+
 module.exports = router;
