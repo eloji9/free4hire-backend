@@ -7,16 +7,16 @@ const Mission = require('../models/mission-model.js');
 
 const router = express.Router();
 
-// // GET ALL THE MISSIONS IN THE DATABASE
-// router.get("/missions", (req,res,next) => {
-//     Mission.find()
-//     .then((missionResults) => {
-//         res.json(missionResults);
-//     })
-//     .catch((err) => {
-//         next(err);
-//     });
-// });
+// GET ALL THE MISSIONS IN THE DATABASE
+router.get("/missions", (req,res,next) => {
+    Mission.find()
+    .then((missionResults) => {
+        res.json(missionResults);
+    })
+    .catch((err) => {
+        next(err);
+    });
+});
 
 // POST A MISSION
 router.post("/process-missions", (req,res,next) => {
@@ -49,42 +49,45 @@ router.post("/process-missions", (req,res,next) => {
     .then((missionDoc) => {
        newMission = missionDoc._id
         res.json(missionDoc);
-        User.findByIdAndUpdate(req.user._id, {$push : {missions: newMission}})
+        User.findByIdAndUpdate(
+            req.user._id, {
+                $push : {
+                    missions: newMission
+                }
+            }
+        )
         .then((user) => {
                 console.log(user)
-        }).catch((err)=>{
+        })
+        .catch((err)=>{
             console.log(err)
         });
     })
     .catch((err) => {
         next(err);
     });
-
-
 });
 
-// // GET THE CURRENT USER MISSIONS
-// router.get("/client/missions", (req,res,next) => {
-//     Mission.find({client:req.user._id})
-//     .then((missionResults) => {
-//         res.json(missionResults);
-//     })
-//     .catch((err) => {
-//         next(err);
-//     });
-// });
 
-// router.get("/worker/missions", (req,res,next) => {
-//     Mission.find({worker:req.user._id})
-//     .then((missionResults) => {
-//         res.json(missionResults);
-//     })
-//     .catch((err) => {
-//         next(err);
-//     });
-// });
+// GET WORKER MISSIONS
+router.get("/missions/:workerId", (req, res, next) => {
+    // Erreur-----------
+    // const workerId = req.params;
+    const workerId = req.params.workerId;
+    User.findById(workerId)
+    .populate({
+        path: 'missions',
+        populate: {path:'worker'}})
+    .then((result) => {
+        res.json(result);
+        // console.log(result);
+    })
+    .catch((err) => {
+        next(err);
+    });
+});
 
-// // GET MISSIONS
+// GET MISSIONS
 // router.get("/mission/find/:missionId", (req, res, next) => {
 
 //     const { missionId } = req.params;
